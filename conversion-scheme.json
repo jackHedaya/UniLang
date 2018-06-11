@@ -1,5 +1,15 @@
 {
     "Java": {
-        "variable": "${type}${name}=${value};"
+        "variable": "${type} ${name} = ${value};\n",
+        "variables": {
+            "Int": "int"
+        }
+    }, 
+
+    "Swift": {
+        "variable": "var ${name} : ${type} = ${value}; \n",
+        "variables": {
+            
+        }
     }
 }
