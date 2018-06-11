@@ -1,0 +1,5 @@
+{
+    "Java": {
+        "variable": "${type}${name}=${value};"
+    }
+}

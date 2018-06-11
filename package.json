@@ -1,0 +1,29 @@
+{
+  "name": "unilang",
+  "version": "0.0.1",
+  "description": "An attempt at using NodeJs and Regex to see how far programming language transpiling can go.",
+  "main": "index.js",
+  "dependencies": {
+    "chalk": "^2.4.1",
+    "commander": "^2.15.1",
+    "jsonfile": "^4.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jackHedaya/UniLang.git"
+  },
+  "keywords": [
+    "unilang",
+    "transpile"
+  ],
+  "author": "Jack Hedaya <jackehedaya@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jackHedaya/UniLang/issues"
+  },
+  "homepage": "https://github.com/jackHedaya/UniLang#readme"
+}

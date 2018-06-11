@@ -1,0 +1,7 @@
+import Java;
+
+var h = 0;
+
+func myfunc::String (item1:String) {
+	return "Hello, World";
+}
