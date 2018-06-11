@@ -1,14 +1,18 @@
 {
     "Java": {
         "variable": "${type} ${name} = ${value};\n",
-        "variables": {
+        "reassign": "${name} ${operator}= ${value};\n",
+        "import": "import ${library};\n",
+        "types": {
             "Int": "int"
         }
     }, 
 
     "Swift": {
         "variable": "var ${name} : ${type} = ${value}; \n",
-        "variables": {
+        "reassign": "${name} ${operator}= ${value};\n",
+        "import": "import ${library};\n",
+        "types": {
             
         }
     }

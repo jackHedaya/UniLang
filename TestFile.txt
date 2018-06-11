@@ -1,7 +1,19 @@
-import Swift;
+@lang import Java;
+
+import java.util.Scanner;
 
 var myInt : Int = 0;
 
+myInt *= 2;
+
 func myfunc::String (item1:String) {
 	return "Hello, World";
+}
+
+for (var i = 0; i < 2; i++) {
+	print (i);
+}
+
+if (myInt < 3) {
+	print ("Hello, World!");
 }

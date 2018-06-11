@@ -25,10 +25,10 @@ program
         fileContents = fileContents.split(/[\n;]/g).filter(x => x !== '');
 
         // Asserting to make sure a language can be found
-        assert(fileContents[0].match(/^import[\s]*(\w*)$/), chalk.red(`Error while transpiling: Language must be on the first line as 'import language'`))
+        assert(fileContents[0].match(/^[\s]*@lang[\s]*import[\s]*(\w*)$/), chalk.red(`Error while transpiling: Language must be on the first line as 'import language'`))
 
         // Extract language from first line
-        var language = fileContents[0].match(/^import[\s]*(\w*)$/)[1];
+        var language = fileContents[0].match(/^[\s]*@lang[\s]*import[\s]*(\w*)$/)[1];
 
         // Get proper conversion scheme from JSON file
         const scheme = jsonfile.readFileSync('conversion-scheme.json')[`${language}`];
@@ -45,14 +45,36 @@ program
             // Create variable to line of code for convenience
             const line = fileContents[i];
 
-            // Disgusting line of code, searches line of code for UniLang variable syntax and stores the results
-            const varData = line.match (/[\s]*var[\s]*([a-zA-Z]*)[\s]*:[\s]*([a-zA-Z]*)[\s]*=[\s]*(.*)$/);
+            // Disgusting line of code, searches line of code for UniLang variable declaration syntax and stores the results
+            const varData = line.match (/^[\s]*var[\s]*([a-zA-Z]\S*)[\s]*:[\s]*([a-zA-Z]*)[\s]*=[\s]*(.*)[\s]*$/);
             
-            // Check if variable syntax was found
+            // Check if variable declaration syntax was found
             if (varData) {
 
-                // Add the transpiled variable line to the output
+                // Add the transpiled variable declaration line to the output
                 out += parseVar (varData[1], varData[2], varData[3]);
+                continue;
+            }
+
+            // Disgusting line of code, searches line of code for UniLang reassignment syntax and stores the results
+            const reassignData = line.match (/^[\s]*([a-zA-Z]\S*)[\s]*([\*\/+-]?)=[\s]*(.*)[\s]*$/);
+            
+            // Check if ivariable reassignment syntax was found
+            if (reassignData) {
+
+                // Add the transpiled variable reassignment line to the output
+                out += parseReassign (reassignData[1], reassignData[2], reassignData[3]);
+                continue;
+            }
+
+            // Disgusting line of code, searches line of code for UniLang import statement and stores the results
+            const importData = line.match (/^[\s]*import[\s]*([a-zA-Z]\S*)[\s]*$/);
+            
+            // Check if import statement syntax was found
+            if (importData) {
+
+                // Add the transpiled import statement line to the output
+                out += parseImport (importData[1]);
                 continue;
             }
         }
@@ -61,19 +83,46 @@ program
         console.log (out);
 
         /**
-         * @description Uses language scheme to generate a properly formatted line of code in the new language
+         * @description Uses the language scheme to generate a properly formatted variable declaration in the new language
          * @param {String} name Variable name
          * @param {String} type Variable type
          * @param {String} value Variable value
          * @returns {String} Converted line of code
          */
         function parseVar (name, type, value) {
-
+            
             // Return line with inserted data
             return scheme.variable
                 .replace ('${name}', name)
-                .replace ('${type}', scheme.variables[type] ? scheme.variables[type] : type)
+                .replace ('${type}', scheme.types[type] ? scheme.types[type] : type)
                 .replace ('${value}', value);
+        }
+
+        /**
+         * @description Uses the language scheme to generate a properly formatted variable reassignment in the new language
+         * @param {String} name Variable name
+         * @param {String} operator Variable operator
+         * @param {String} value Variable value
+         * @returns {String} Converted line of code
+         */
+        function parseReassign (name, operator, value) {
+            
+            // Return line with inserted data
+            return scheme.reassign
+                .replace ('${name}', name)
+                .replace ('${operator}', operator)
+                .replace ('${value}', value);
+        }
+
+        /**
+         * @description Uses the language scheme to generate a properly formatted import statement in the new language
+         * @param {String} library Library name
+         * @returns {String} Converted line of code
+         */
+        function parseImport (library) {
+            // Return line with inserted data
+            return scheme.import
+                .replace ('${library}', library);
         }
     })
     .parse(process.argv);
