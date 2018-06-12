@@ -1,15 +1,23 @@
 {
+    "UniLang": {
+        "variable": "var ${name} : ${type} = ${value};\n",
+        "reassign": "${name} ${operator}= ${value};\n",
+        "import": "import ${library};\n"
+    },
+
     "Java": {
         "variable": "${type} ${name} = ${value};\n",
         "reassign": "${name} ${operator}= ${value};\n",
         "import": "import ${library};\n",
         "types": {
-            "Int": "int"
+            "Int": "int",
+            "Bool": "boolean"
+
         }
     }, 
 
     "Swift": {
-        "variable": "var ${name} : ${type} = ${value}; \n",
+        "variable": "var ${name} : ${type} = ${value};\n",
         "reassign": "${name} ${operator}= ${value};\n",
         "import": "import ${library};\n",
         "types": {

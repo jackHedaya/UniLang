@@ -79,7 +79,7 @@ program
             }
         }
 
-        console.log (fileContents);
+        // console.log (fileContents);
         console.log (out);
 
         /**
@@ -125,4 +125,4 @@ program
                 .replace ('${library}', library);
         }
     })
-    .parse(process.argv);
+.parse(process.argv);
