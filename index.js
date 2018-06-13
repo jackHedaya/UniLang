@@ -7,6 +7,7 @@ const jsonfile = require('jsonfile');
 const program = require('commander');
 const chalk = require('chalk');
 
+// Create the CLI
 program
     .arguments('<file>')
     .description('Transpiles a UniLang file into the language provided.')

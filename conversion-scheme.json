@@ -1,12 +1,15 @@
 {
     "UniLang": {
+        "constant": "const ${name} : ${type} = ${value};\n",
         "variable": "var ${name} : ${type} = ${value};\n",
+        
         "reassign": "${name} ${operator}= ${value};\n",
         "import": "import ${library};\n"
     },
 
     "Java": {
         "variable": "${type} ${name} = ${value};\n",
+        "constant": "final ${type} ${name} = ${value};\n",
         "reassign": "${name} ${operator}= ${value};\n",
         "import": "import ${library};\n",
         "types": {
@@ -18,6 +21,7 @@
 
     "Swift": {
         "variable": "var ${name} : ${type} = ${value};\n",
+        "constant": "let ${name} : ${type} = ${value};\n",
         "reassign": "${name} ${operator}= ${value};\n",
         "import": "import ${library};\n",
         "types": {
