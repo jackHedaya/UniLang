@@ -1,8 +1,7 @@
 {
     "UniLang": {
-        "constant": "const ${name} : ${type} = ${value};\n",
         "variable": "var ${name} : ${type} = ${value};\n",
-        
+        "constant": "const ${name} : ${type} = ${value};\n",
         "reassign": "${name} ${operator}= ${value};\n",
         "import": "import ${library};\n"
     },
