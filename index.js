@@ -31,11 +31,18 @@ program
         // Extract language from first line
         var language = fileContents[0].match(/^[\s]*@lang[\s]*import[\s]*(\w*)$/)[1];
 
-        // Get proper conversion scheme from JSON file
-        const scheme = jsonfile.readFileSync('conversion-scheme.json')[`${language}`];
+        // Get all language conversion schemes from JSON file
+        schemes = jsonfile.readFileSync ('conversion-scheme.json');
+
+        // Get wanted language scheme and UniLang scheme
+        const langScheme = schemes[language];
+        const uniScheme = schemes["UniLang"];
+
+        // Delete schemes as it is no longer needed
+        delete schemes;
 
         // Asserting to make sure the language exists in the conversion scheme
-        assert(scheme, chalk.red(`Error while transpiling: ${language} is not a supported language yet`))
+        assert(langScheme, chalk.red(`Error while transpiling: ${language} is not a supported language yet`))
 
         // Remove import line because it has already been used
         fileContents.shift(0);
@@ -45,6 +52,8 @@ program
 
             // Create variable to line of code for convenience
             const line = fileContents[i];
+
+            initializeRegex ();
 
             // Disgusting line of code, searches line of code for UniLang variable declaration syntax and stores the results
             const varData = line.match (/^[\s]*var[\s]*([a-zA-Z]\S*)[\s]*:[\s]*([a-zA-Z]*)[\s]*=[\s]*(.*)[\s]*$/);
@@ -127,3 +136,39 @@ program
         }
     })
 .parse(process.argv);
+
+/**
+ * @description Convert the UniLang scheme into Regex
+ * @returns {object} Converted scheme with extracted keys
+ */
+function initializeRegex () {
+
+    // Create empty object as a return variable 
+    var convertedScheme = {}
+
+    // Iterate over al of the schemes in the original UniLang scheme
+    for (var item in uniScheme) {
+
+        // Add the scheme with beginning, ending, and starting whitespace regex
+        var scheme = '^[\\s]*' + uniScheme[item] + '$';
+        
+        // The Regex to find any keys in the scheme
+        var keyExtraction = new RegExp("[$]{(.*?)}", 'g');
+        
+        // Add the scheme to the convertedScheme object under the scheme type
+        convertedScheme[item] = { 
+
+            // Reformat the scheme to  Regex
+            "expression": scheme
+                .replace (/;/g, '')
+                .replace (/[\s]/g, '[\\s]*')
+                .replace (/[$]{(.*?)}/g, '(.*?)'),
+            
+            // Get all the necessary keys under the scheme
+            keys : getMatches (scheme, keyExtraction),
+        }
+    }
+
+    // Return the Regex-ified UniLang scheme
+    return convertedScheme;
+}
