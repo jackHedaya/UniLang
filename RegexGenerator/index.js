@@ -1,5 +1,4 @@
 // Import required packages
-const fs = require ('fs');
 const jsonfile = require ('jsonfile');
 
 // Initialize sample line of code and language
