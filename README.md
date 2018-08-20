@@ -7,6 +7,6 @@ Later, I discovered RegEx. RegEx would have made my life a lot easier. This is m
 
 ## Get Started
 ### For Development
-+ Fork the directory repository (https://github.com/jackHedaya/UniLang)
++ Fork the repository (https://github.com/jackHedaya/UniLang)
 + `cd` to the directory
 + `npm install`
